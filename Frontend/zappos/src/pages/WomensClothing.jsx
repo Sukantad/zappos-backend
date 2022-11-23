@@ -170,13 +170,13 @@ const WomensClothing = () => {
 
       {/* coats and outwears */}
       <div className="container">
-        {/* <div style={{height:"250px",backgroundColor:"white", width:"350px" ,position:"absolute",marginLeft:"40px",marginTop:"30px",padding:"10px 40px"}} >
+        <div style={{height:"250px",backgroundColor:"white", width:"350px" ,position:"absolute",marginLeft:"40px",marginTop:"30px",padding:"10px 40px"}} >
        <h1 style={{fontSize:"23px"}}>New Arrivals: Coats & Outerwear</h1>
         <h4 style= {{marginTop:"30px"}}>Complete every fall look with our most coveted picks of the season.</h4>
         <div style={{fontSize:"28px"}}>
           <button type="button"  style={{fontSize:"18px",backgroundColor:"white",border:"2px solid black",fontWeight:"bold",margin:"20px",padding:"5px 10px"}} >SHOP WOMEN'S COATS & OUTERWEAR</button>
         </div>
-       </div> */}
+       </div>
         <img
           src="https://m.media-amazon.com/images/G/01/2022/womens/WOMENS-COATS-OUTERWEAR-NEW-ARRIVALS-OCTOBER-HERO-1440x700.jpg"
           alt=""
