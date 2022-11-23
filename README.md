@@ -1,3 +1,3 @@
 # zappos-backend
 
-*cors, express,mongoose installed
+### cors, express,mongoose,morgan,dotenv installed
