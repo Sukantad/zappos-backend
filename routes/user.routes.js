@@ -40,7 +40,7 @@ userroute.post('/login', async (req, res) => {
     }
 })
 
-userroute.post('/', async (req, res) => {
+userroute.post('/reg', async (req, res) => {
     try {
         const find = await usermodel.findOne({email: req.body.email});
         if(find) {
@@ -61,16 +61,6 @@ userroute.post('/', async (req, res) => {
     }
 })
 
-userroute.get('/', (req, res) => {
-    try {
-        res.send("dhfd")
-    } catch (error) {
-        return res.status(500).send({
-            status: "Error",
-            data: "Internal Server Error"
-        })
-    }
-})
 
 
 
