@@ -1,7 +1,4 @@
-# zappos-backend
-- All Backend Will be here
-
-# Zappos Frontend
+# Zappos Clone
 
 
 ## Functionalities
@@ -63,4 +60,15 @@
 - NPM Packages
 
 - Flickity Carousel
+
+
+# Deployed Links
+
+- [Netlify](https://zappos-official.netlify.app/)
+
+- [GitHub](https://github.com/Royanosh/zappos)
+
+- [Heroku Server](https://zappos-server.herokuapp.com/)
+
+- [Blog](https://gaurav1.hashnode.dev/zappos-clone)
 
