@@ -2,19 +2,20 @@ const express = require("express");
 const cors = require("cors");
 const conn = require("./database/db");
 const { userRoute } = require("./routes/user.routes");
+const { payment } = require("./routes/payment.routes");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+
 const app = express();
 
 //middlewares
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
 //Using Routes
-
 app.use("/user", userRoute);
+app.use("/payment", payment);
 
 const port = process.env.PORT || 3050;
 
