@@ -17,7 +17,7 @@ exports.getProducts = async (req, res) => {
         a = -1;
       }
       const product = await product_model
-        .find({ $text: { $search: queries.q } })
+      .find({desc:{ $regex: queries.q }})
         .sort({ price: a })
         .skip(
           Number(queries.limit) * Number(queries.page) - Number(queries.limit)
@@ -27,7 +27,7 @@ exports.getProducts = async (req, res) => {
     }
     if (queries.page && queries.limit && queries.q != null) {
       const product = await product_model
-        .find({ $text: { $search: queries.q } })
+      .find({desc:{ $regex: queries.q }})
         .skip(
           Number(queries.limit) * Number(queries.page) - Number(queries.limit)
         )
@@ -60,12 +60,14 @@ exports.getProducts = async (req, res) => {
         a = -1;
       }
       const product = await product_model
-        .find({ $text: { $search: queries.q } })
+      .find({desc:{ $regex: queries.q }})
         .sort({ price: a });
       return res.send(product);
     }
     if (queries.q) {
-      const product = await product_model.find({ $text: { $search: queries.q } });
+      console.log(queries.q)
+    const product = await product_model.find({desc:{$regex: queries.q}});
+
       return res.send(product);
     }
     if (queries.sort === "price" && queries.order != "") {
