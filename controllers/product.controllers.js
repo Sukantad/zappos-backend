@@ -65,8 +65,8 @@ exports.getProducts = async (req, res) => {
       return res.send(product);
     }
     if (queries.q) {
-      const Movie = await product_model.find({ $text: { $search: queries.q } });
-      return res.send(Movie);
+      const product = await product_model.find({ $text: { $search: queries.q } });
+      return res.send(product);
     }
     if (queries.sort === "price" && queries.order != "") {
       let a = 1;
