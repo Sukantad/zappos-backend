@@ -95,6 +95,7 @@ const Navbar = () => {
 
             <Flex bg="gray.50">
                 <Flex p='4' w='60%'
+                justifyContent={'center'}
                 >
                     <Box
                         display={{ base: 'flex', sm: 'flex', md: 'flex', lg: 'none', xl: 'none' }}
@@ -104,18 +105,24 @@ const Navbar = () => {
 
                     <Link to="/">
                         <Image
-                            h="40px" m={2}
+                        m="5px 40px 5px 20px"
+                            h="40px" 
                             src="https://m.media-amazon.com/images/G/01/zappos/melody/zapposPBS._CB1509642213_.svg" />
                     </Link>
+                 
                     <Input
                         display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex', xl: 'flex' }}
-                        border='1px solid'
-                        borderColor='black'
+                        border='2px solid #DDDDDD'
+                        variant='unstyled'
+                        rounded={'0px'}
+                         height='40px'
+
                         w='80%'
-                        placeholder={ isauth ? `${userprofile.name}, search for shoes, clothes, etc` :
-                                    `search for shoes, clothes, etc`
+                        padding={'10px 12px'}
+                        placeholder={ isauth ? `${userprofile.name}, Search for shoes, clothes, etc` :
+                                    `Search for shoes, clothes, etc`
                                 }
-                        m={2}
+                    
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -125,8 +132,9 @@ const Navbar = () => {
                         // p={5}
                         bg='#003953'
                         color='white'
+                        rounded={'0px'}
                         _hover={{ bg: "blue.500", color: 'white' }}
-                        m={2} onClick={handlesearch}
+                        onClick={handlesearch}
                     >SEARCH</Button>
                 </Flex>
 
@@ -172,7 +180,7 @@ const Navbar = () => {
                 />
 
                 <Button
-                    // p={5}
+                 
                     bg='#003953'
                     color='white'
                     _hover={{ bg: "blue.500", color: 'white' }}
@@ -181,15 +189,15 @@ const Navbar = () => {
                 >SEARCH</Button>
             </Flex>
 
-            <Flex bg="gray.100" display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex', xl: 'flex' }}>
-                <Flex>
+            <Flex p='2px 10px' justifyContent={'center'} bg="#F4F4F4" display={{ base: 'none', sm: 'none', md: 'none', lg: 'flex', xl: 'flex' }}>
+                <Flex color={'rgb(0, 57, 83)'} fontWeight='bold'>
                     <Menu>
                         <MenuButton
-                            as={Button} rightIcon={<ChevronDownIcon />}>
+                            as={Button} rightIcon={<ChevronDownIcon/>}>
                             Women
                         </MenuButton>
                         <MenuList>
-                            <Flex>
+                            <Flex ml='20px'>
 
                                 <MenuList>
                                     <MenuItem fontWeight='bold'>Shoes</MenuItem>
@@ -805,7 +813,7 @@ const Navbar = () => {
                             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                                 My Account
                             </MenuButton>
-                            <MenuList>
+                            <MenuList color={'rgb(0, 57, 83)'}>
                                 <MenuItem color="#144860" fontWeight="bold.100">Welcome, back {userprofile.name} !</MenuItem>
                                 <MenuItem>VIP Dashboard</MenuItem>
                                 <Link to="/orderhistory"><MenuItem>View Orders / Return Items</MenuItem></Link>

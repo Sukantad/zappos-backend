@@ -13,7 +13,7 @@ const Bigbanner2 = () => {
                     colSpan={2}
                 >
                     <Image
-                        h={{ base: 'auto', sm: 'auto', md: '500px', lg: 'auto', xl: 'auto' }}
+                        h={{ base: '200px', sm: 'auto', md: '500px', lg: 'auto', xl: 'auto' }}
                         src="https://m.media-amazon.com/images/G/01/2022/the-style-room/EDITORS-PICKS-OCTOBER-TSR-960x500.jpg" />
                 </GridItem>
 
