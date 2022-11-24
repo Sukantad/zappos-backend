@@ -5,5 +5,5 @@ const { getProducts } = require('../controllers/product.controllers');
 
 const productRouter=Router();
 
-productRouter.get("/:category",getProducts);
+productRouter.get("/",getProducts);
 module.exports=productRouter
