@@ -19,7 +19,7 @@ const LandingPage = ()=>{
             <Bigbanners/>
             <PopularItems/>
             <Bigbanner2/>
-            <TrandingBrands/>
+            {/* <TrandingBrands/> */}
             <BelowTrending/>
             <Zapposforgood/>
         </Box>
