@@ -2,6 +2,7 @@ const express = require("express");
 const cors= require("cors")
 const conn = require("./database/db");
 const { userroute } = require("./routes/user.routes");
+const { payment } = require("./routes/payment.routes");
 
 const app=express();
 app.use(express.json())
