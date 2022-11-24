@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-dotenv.config({
-   path:"./.env"
-})
+//env config
+dotenv.config();
 
-const API=process.env.MONGO_API;
-function conn(){
-   mongoose.connect(API)
-   .then(()=>{
-    console.log("Connected to Database")
-   })
-   .catch(()=>{
-    console.log("Not Connected to Database")
-   })
-
+//DB Connection
+const API = process.env.MONGO_API;
+function conn() {
+  mongoose
+    .connect(API)
+    .then(() => {
+      console.log("Connected to Database");
+    })
+    .catch((error) => {
+      console.log("Failed To Connect With Database, Error: ", error);
+    });
 }
 
-module.exports=conn;
+module.exports = conn;

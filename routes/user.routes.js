@@ -1,69 +1,20 @@
-const express = require('express');
-const jwt = require("jsonwebtoken");
-const JWT_SECRET = "iddfki4r598hdafknpd8h3kn3p8h9rknafhsdfir3kn"
-const bcrypt = require("bcryptjs");
-const usermodel = require('../models/user.model');
+const express = require("express");
 
-const userroute = express.Router();
+//user controllers
+const { signup, login, signout } = require("../controllers/user.controllers");
+const {
+  signupDetailsValidator,
+  loginDetailsValidator,
+} = require("../middleware/detailsValidator");
 
+//userRoute initialize
+const userRoute = express.Router();
 
+//Routes
+userRoute.post("/login", loginDetailsValidator, login);
+userRoute.post("/signup", signupDetailsValidator, signup);
 
-userroute.post('/login', async (req, res) => {
-    try {
-        const email = await usermodel.findOne({email: req.body.email});
-        if(!email) {
-            return res.status(400).send({
-                status: "error",
-                data: "Invalid Credentials"
-            })
-        }
-        const password = bcrypt.compareSync(req.body.password, email.password);
-        console.log(password);
-        if(!password) {
-            return res.status(400).send({
-                status: "error",
-                data: "Invalid Credentials"
-            })
-        }
+userRoute.get("/signout", signout);
 
-        const token = jwt.sign(req.body, JWT_SECRET);
-        return res.send({
-            status: 'success',
-            data: token
-           
-        })
-    } catch (error) {
-        return res.status(500).send({
-            status: "Error",
-            data: "Internal Server Error"
-        })
-    }
-})
-
-userroute.post('/reg', async (req, res) => {
-    try {
-        const find = await usermodel.findOne({email: req.body.email});
-        if(find) {
-            return res.status(400).send({
-                status: "error",
-                data: "User already exists"
-            })
-        }
-        const details = await usermodel.create(req.body);
-        return res.send({
-            status: 'success',
-        })
-    } catch (error) {
-        return res.status(500).send({
-            status: "Error",
-            data: "Internal Server Error"
-        })
-    }
-})
-
-
-
-
-
-
-module.exports = {userroute}
+//exports
+module.exports = { userRoute };

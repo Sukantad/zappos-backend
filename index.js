@@ -1,17 +1,28 @@
 const express = require("express");
-const cors= require("cors")
+const cors = require("cors");
 const conn = require("./database/db");
-const { userroute } = require("./routes/user.routes");
+const { userRoute } = require("./routes/user.routes");
+const cookieParser = require("cookie-parser");
+require("dotenv").config();
+const app = express();
 
-const app=express();
-app.use(express.json())
-app.use(cors())
-app.use("/user", userroute)
-app.listen(4000,()=>{
-    try {
-        conn()
-        console.log("Server Started")
-    } catch (error) {
-        console.log("Internal Server Error")
-    }
-})
+//middlewares
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
+
+//Using Routes
+
+app.use("/user", userRoute);
+
+const port = process.env.PORT || 3050;
+
+app.listen(port, () => {
+  try {
+    conn();
+    console.log(`Server Started On Port:${port}`);
+  } catch (error) {
+    console.log("Internal Server Error");
+  }
+});
