@@ -66,7 +66,7 @@ exports.getProducts = async (req, res) => {
     }
     if (queries.q) {
       console.log(queries.q)
-    const product = await product_model.find({desc:{$regex: queries.q}});
+    const product = await product_model.find({desc:new RegExp(queries.q,"i")});
 
       return res.send(product);
     }
@@ -78,6 +78,18 @@ exports.getProducts = async (req, res) => {
       const product = await product_model.find().sort({ price: a });
       return res.send(product);
     }
+  //  if()
+
+  if (
+    Number(queries.page) &&
+    Number(queries.limit)){
+      const product = await product_model
+      .find().skip( Number(queries.limit) * Number(queries.page) - Number(queries.limit)
+      )
+      .limit(queries.limit);
+    return res.send(product);
+    }
+
     const product = await product_model.find();
     return res.send(product);
   } catch (error) {
