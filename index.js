@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const conn = require("./database/db");
+const passport = require("passport");
 const { userRoute } = require("./routes/user.routes");
 const { payment } = require("./routes/payment.routes");
 const cookieParser = require("cookie-parser");
 const productRouter = require("./routes/product.routes");
 require("dotenv").config();
+require("./config/passport")(passport);
 
 const app = express();
 
@@ -17,7 +19,7 @@ app.use(cors());
 //Using Routes
 app.use("/user", userRoute);
 app.use("/payment", payment);
-app.use("/products",productRouter)
+app.use("/products", productRouter);
 
 const port = process.env.PORT || 3050;
 

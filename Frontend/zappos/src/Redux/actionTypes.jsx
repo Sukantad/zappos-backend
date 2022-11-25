@@ -11,3 +11,4 @@ export const GENDERFILTER = "GENDERFILTER";
 export const BRANDFILTER = "BRANDFILTER";
 export const PRICEFILTER = "PRICEFILTER";
 export const CLEARFILTER = "CLEARFILTER";
+export const SETTOKEN = "SETTOKEN";

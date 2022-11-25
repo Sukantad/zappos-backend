@@ -11,17 +11,19 @@ import {
   BRANDFILTER,
   PRICEFILTER,
   CLEARFILTER,
+  SETTOKEN,
 } from "./actionTypes";
 
 const initState = {
   error: false,
-  userprofile: {},
-  isauth: false,
+  userprofile: JSON.parse(localStorage.getItem("profile")),
+  isauth: JSON.parse(localStorage.getItem("profile")) ? true : false,
   cart: [],
   shipaddress: "",
   genderarr: [],
   brandarr: [],
   pricearr: [],
+  token: "",
 };
 
 function reducer(state = initState, { type, payload }) {
@@ -55,6 +57,8 @@ function reducer(state = initState, { type, payload }) {
     }
 
     case LOGOUT: {
+      localStorage.removeItem("profile");
+      localStorage.removeItem("token");
       return {
         error: false,
         userprofile: {},
@@ -271,10 +275,18 @@ function reducer(state = initState, { type, payload }) {
 
     case CLEARFILTER: {
       return {
-        ...state, genderarr: [],
+        ...state,
+        genderarr: [],
         brandarr: [],
         pricearr: [],
-      }
+      };
+    }
+
+    case SETTOKEN: {
+      return {
+        ...state,
+        token: payload,
+      };
     }
 
     default: {

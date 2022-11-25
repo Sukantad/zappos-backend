@@ -14,7 +14,7 @@ import {
 
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { setuser } from "../Redux/action";
+import { settoken, setuser } from "../Redux/action";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -87,41 +87,74 @@ const SignIn = () => {
   const loginNow = (e) => {
     e.preventDefault();
 
-    if (password !== "" && email !== "") {
-      let isPresent = false;
-
-      users.forEach((elem) => {
-        if (elem.email === email) isPresent = true;
-      });
-
-      if (isPresent) {
-        let passwormatch = false;
-
-        users.forEach((elem) => {
-          if (elem.password === password) {
-            dispatch(setuser(elem));
-            passwormatch = true;
-          }
-        });
-
-        if (passwormatch) {
+    fetch("http://localhost:3050/user/login", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.status === "success") {
           LoginSuccess();
+          dispatch(
+            setuser({
+              email: result.user.email,
+              name: result.user.name,
+            })
+          );
+          dispatch(settoken(result.data));
+          localStorage.setItem("token", JSON.stringify(result.data));
+          localStorage.setItem("profile", JSON.stringify(result.user));
           navigate("/");
         } else {
           Error();
         }
-      } else {
-        Warning({
-          title: "User Not exists",
-          desc: "Try using another Email or try Creating Account",
-        });
-      }
-    } else {
-      Warning({
-        title: "Empty Fields found",
-        desc: "All fields are mandotary Please fill all fields",
+      })
+      .catch((error) => {
+        console.log(error);
+        Error();
       });
-    }
+
+    // if (password !== "" && email !== "") {
+    //   let isPresent = false;
+
+    //   users.forEach((elem) => {
+    //     if (elem.email === email) isPresent = true;
+    //   });
+
+    //   if (isPresent) {
+    //     let passwormatch = false;
+
+    //     users.forEach((elem) => {
+    //       if (elem.password === password) {
+    // dispatch(setuser(elem));
+    //         passwormatch = true;
+    //       }
+    //     });
+
+    //     if (passwormatch) {
+    //       LoginSuccess();
+    //       navigate("/");
+    //     } else {
+    //       Error();
+    //     }
+    //   } else {
+    //     Warning({
+    //       title: "User Not exists",
+    //       desc: "Try using another Email or try Creating Account",
+    //     });
+    //   }
+    // } else {
+    //   Warning({
+    //     title: "Empty Fields found",
+    //     desc: "All fields are mandotary Please fill all fields",
+    //   });
+    // }
   };
 
   if (isauth) return <Navigate to="/" />;

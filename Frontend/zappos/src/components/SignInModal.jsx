@@ -55,6 +55,7 @@ const SignInModal = () => {
                         w="100%"
                         colorScheme="grey"
                         variant="outline"
+                        onClick={onClose}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -75,6 +76,7 @@ const SignInModal = () => {
                       w="100%"
                       colorScheme="grey"
                       variant="outline"
+                      onClick={onClose}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +114,7 @@ const SignInModal = () => {
                       w="100%"
                       colorScheme="grey"
                       variant="outline"
+                      onClick={onClose}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -149,6 +152,7 @@ const SignInModal = () => {
                       w="380px"
                       colorScheme="grey"
                       variant="outline"
+                      onClick={onClose}
                     >
                       CREATE YOUR ZAPPOS ACCOUNT
                     </Button>

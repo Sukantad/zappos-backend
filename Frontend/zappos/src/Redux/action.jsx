@@ -11,6 +11,7 @@ import {
   BRANDFILTER,
   PRICEFILTER,
   CLEARFILTER,
+  SETTOKEN,
 } from "./actionTypes";
 
 export const getError = () => ({
@@ -71,7 +72,12 @@ export const pricefilter = (data) => ({
 });
 
 export const clearfilter = () => ({
-  type: CLEARFILTER
+  type: CLEARFILTER,
+});
+
+export const settoken = (payload) => ({
+  type: SETTOKEN,
+  payload,
 });
 
 export const register = (user) => (dispatch) => {
