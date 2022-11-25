@@ -82,12 +82,10 @@ const WomensClothing = () => {
     <>
       {/* women's first page */}
       <div style={style.div}>
-        <h1>Women's Clothing</h1>
+        <h1 style={{ fontSize: "2rem",marginTop:"30px" }}>Women's Clothing</h1>
       </div>
       <div className="container">
-        <p>
-          Home / <span> ClothingWomen's</span> / <span>Clothing</span>{" "}
-        </p>
+       
       </div>
 
       <div
@@ -406,8 +404,8 @@ const WomensClothing = () => {
       </section>
 
       <section>
-        {/* <Brand/> */}
-        <TrandingBrands />
+        <Brand/>
+        {/* <TrandingBrands /> */}
       </section>
     </>
   );
