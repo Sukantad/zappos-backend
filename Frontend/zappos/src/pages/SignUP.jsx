@@ -23,7 +23,7 @@ const SignUP = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const [extrapss, setExtrapass] = useState("");
 
   // alert functions code starts
@@ -52,14 +52,14 @@ const SignUP = () => {
 
   // alert functions code ends
 
-  useEffect(() => {
-    const getusers = () => {
-      fetch(`https://zappos-server.herokuapp.com/users`)
-        .then((res) => res.json())
-        .then((data) => setUsers(data));
-    };
-    getusers();
-  }, []);
+  // useEffect(() => {
+  //   const getusers = () => {
+  //     fetch(`https://zappos-server.herokuapp.com/users`)
+  //       .then((res) => res.json())
+  //       .then((data) => setUsers(data));
+  //   };
+  //   getusers();
+  // }, []);
 
   const [user, setUser] = useState({
     name: "",

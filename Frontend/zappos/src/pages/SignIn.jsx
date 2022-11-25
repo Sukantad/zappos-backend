@@ -24,7 +24,7 @@ const SignIn = () => {
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const isauth = useSelector((state) => state.isauth);
   const [user, setUser] = useState({
     email: "",
@@ -68,14 +68,14 @@ const SignIn = () => {
 
   // alerts code ends---------
 
-  useEffect(() => {
-    const getusers = () => {
-      fetch(`https://zappos-server.herokuapp.com/users`)
-        .then((res) => res.json())
-        .then((data) => setUsers(data));
-    };
-    getusers();
-  }, []);
+  // useEffect(() => {
+  //   const getusers = () => {
+  //     fetch(`https://zappos-server.herokuapp.com/users`)
+  //       .then((res) => res.json())
+  //       .then((data) => setUsers(data));
+  //   };
+  //   getusers();
+  // }, []);
 
   const handlechange = (e) => {
     const { value, name } = e.target;
