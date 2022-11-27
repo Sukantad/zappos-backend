@@ -35,10 +35,14 @@ exports.addToCart = async (req, res) => {
         userId: userId,
         productId: productId,
       });
-
+      const item = await Cart.findOneAndUpdate(
+        { userId: userId, productId: productId },
+        { quantity: quant?.quantity + 1 },
+        { new: true }
+      ).populate("productId");
       return res.status(200).send({
-        status: "error",
-        message: quant?.quantity,
+        status: "success",
+        message: item,
       });
     } else {
       const newItem = await Cart.create({
