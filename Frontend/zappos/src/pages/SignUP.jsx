@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { register } from "../Redux/action";
-
+const BASE_URL = "https://zappos.cyclic.app";
 const SignUP = () => {
   const toast = useToast();
   const dispatch = useDispatch();
@@ -84,7 +84,7 @@ const SignUP = () => {
 
     if (name !== "" && email !== "" && password !== "" && extrapss !== "") {
       if (password === extrapss) {
-        fetch("http://localhost:3050/user/signup", {
+        fetch(`${BASE_URL}/user/signup`, {
           method: "POST",
           body: JSON.stringify(user),
           headers: {

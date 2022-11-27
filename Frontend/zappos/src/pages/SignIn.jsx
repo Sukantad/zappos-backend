@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+const BASE_URL = "https://zappos.cyclic.app";
 const SignIn = () => {
   const toast = useToast();
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ const SignIn = () => {
   const loginNow = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:3050/user/login", {
+    fetch(`${BASE_URL}/user/login`, {
       method: "POST",
       body: JSON.stringify({
         email: email,
