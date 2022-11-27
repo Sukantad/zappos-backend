@@ -21,37 +21,47 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
-import { BsStars } from "react-icons/bs";
+import { BsCheckLg, BsStars } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { deletefromcart, increasecart } from "../Redux/action";
+import { deletefromcart, fetchCartData, increasecart } from "../Redux/action";
 
 const MyCart = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
-  // const cart = useSelector((state) => state.cart);
-  const [cart, setCart] = useState([]);
-  fetch(
-    `https://zappos.cyclic.app/cart/${
-      JSON.parse(localStorage.getItem("profile"))._id
-    }`
-  )
-    .then((res) => res.json())
-    .then((res) => setCart(res.data));
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  // console.log(cart);
+  // const [cart, setCart] = useState([]);
+  useEffect(() => {
+    // fetchData();
+    dispatch(fetchCartData());
+  }, []);
+
+  // const fetchData = () => {
+  //   fetch(
+  //     `https://zappos.cyclic.app/cart/${
+  //       JSON.parse(localStorage.getItem("profile"))._id
+  //     }`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       res.data ? setCart(res.data) : setCart([]);
+  //     });
+  // };
 
   const [totalAmount, setTotalAmount] = useState(0);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     const getAmount = () => {
-      let amt = cart.reduce((acc, elem) => {
+      let amt = cart?.reduce((acc, elem) => {
         return acc + elem.productId.price * elem.quantity;
       }, 0);
-      setTotalAmount(Math.floor(amt));
+      setTotalAmount(amt ? Math.floor(amt) : 0);
     };
     getAmount();
   }, [cart]);
-
   return (
     <>
       <Button
@@ -64,7 +74,7 @@ const MyCart = () => {
         <Box mr="10px">
           <AiOutlineShoppingCart />
         </Box>{" "}
-        <span>{`${cart.length} ITEMS IN CART`}</span>
+        <span>{`${cart ? cart.length : 0} ITEMS IN CART`}</span>
       </Button>
       <Drawer
         size={"md"}
@@ -88,7 +98,7 @@ const MyCart = () => {
               </Center>
             </Box>
             <Box>
-              {cart.map((elem) => (
+              {cart?.map((elem) => (
                 <Flex
                   p={2}
                   key={
@@ -153,7 +163,10 @@ const MyCart = () => {
                               "Content-type": "application/json",
                             },
                           }
-                        );
+                        ).then((res) => {
+                          console.log(res);
+                          dispatch(fetchCartData());
+                        });
                       }}
                     >
                       <option value="1">1</option>
@@ -188,7 +201,9 @@ const MyCart = () => {
                               "Content-type": "application/json",
                             },
                           }
-                        );
+                        ).then(() => {
+                          dispatch(fetchCartData());
+                        });
                         // dispatch(deletefromcart(elem));
                       }}
                     >
@@ -202,7 +217,7 @@ const MyCart = () => {
 
           <DrawerFooter display={"block"} bg={"#f5f5f5"}>
             <Text mb={"5px"} textAlign={"right"}>
-              Cart Subtotal ({cart.length} Items)${totalAmount}
+              Cart Subtotal ({cart?.length} Items)${totalAmount}
             </Text>
             <Flex>
               <Box>

@@ -32,26 +32,37 @@ import { BsArrow90DegLeft, BsStars } from "react-icons/bs";
 import { IoIosAirplane } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { deletefromcart, increasecart } from "../Redux/action";
+import { deletefromcart, fetchCartData, increasecart } from "../Redux/action";
 
 const Cart = () => {
+  // const [cart, setCart] = useState([]);
   const cart = useSelector((state) => state.cart);
-  const [ totalAmount, setTotalAmount ] = useState(0);
   const dispatch = useDispatch();
-  useEffect(()=>{
-    const getAmount = ()=>{
-      let amt = cart.reduce((acc, elem)=>{
-          return acc + elem.price*elem.count
-      },0)
-      setTotalAmount(Math.floor(amt));
-    }
+  useEffect(() => {
+    // fetchData();
+    dispatch(fetchCartData());
+  }, []);
+
+  // const fetchData = () => {
+  //   fetch(
+  //     `https://zappos.cyclic.app/cart/${
+  //       JSON.parse(localStorage.getItem("profile"))._id
+  //     }`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((res) => setCart(res.data));
+  // };
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  useEffect(() => {
+    const getAmount = () => {
+      let amt = cart?.reduce((acc, elem) => {
+        return acc + elem.productId.price * elem.quantity;
+      }, 0);
+      setTotalAmount(amt ? Math.floor(amt) : 0);
+    };
     getAmount();
-  },[cart])
-
-
-
-
-
+  }, [cart]);
 
   return (
     <>
@@ -174,7 +185,7 @@ const Cart = () => {
           </HStack>
         </Grid>
         <Text mt={2} fontSize={"2xl"} fontWeight="400">
-          {cart.length} items in My Cart Item
+          {cart?.length} items in My Cart Item
         </Text>
         <Grid
           templateColumns={{
@@ -205,84 +216,121 @@ const Cart = () => {
                 <Text>Price/Quantity</Text>
               </Box>
             </Flex>
-            
-            {
-              cart.map((elem)=>(
-                <Box key={Math.random()*Date.now()+elem.imageurl+Math.random()}
-                >
-                  <Flex p={2} w="90%" justifyContent="space-between">
+
+            {cart?.map((elem) => (
+              <Box
+                key={
+                  Math.random() * Date.now() +
+                  elem.productId.imageurl +
+                  Math.random()
+                }
+              >
+                <Flex p={2} w="90%" justifyContent="space-between">
                   <Flex>
-                  <Box borderRadius={2} boxShadow={"md"} position={"relative"}>
                     <Box
-                      padding={"4px 6px"}
-                      boxShadow="sm"
-                      borderEndStartRadius={"10px"}
-                      bg={"white"}
-                      position={"absolute"}
-                      right="0"
-                      top={0}
+                      borderRadius={2}
+                      boxShadow={"md"}
+                      position={"relative"}
                     >
-                      <AiOutlineHeart />
+                      <Box
+                        padding={"4px 6px"}
+                        boxShadow="sm"
+                        borderEndStartRadius={"10px"}
+                        bg={"white"}
+                        position={"absolute"}
+                        right="0"
+                        top={0}
+                      >
+                        <AiOutlineHeart />
+                      </Box>
+                      <Image
+                        w={"150px"}
+                        h="200px"
+                        src={elem.productId.imageurl}
+                        alt="image of product"
+                      />
                     </Box>
-                    <Image
-                      w={"150px"}
-                      h="200px"
-                      src={elem.imageurl}
-                      alt="image of product"
-                    />
-                  </Box>
-                  <Box pl="10px">
-                    <Text>{elem.brand}</Text>
-                    <Text>
-                      <b>{elem.desc}</b>
-                    </Text>
-                    <Text>Color: French Blue/Black</Text>
-                    <Text>Size: 7</Text>
-                    <Text>Width: B - Medium</Text>
-                  </Box>
+                    <Box pl="10px">
+                      <Text>{elem.productId.brand}</Text>
+                      <Text>
+                        <b>{elem.productId.desc}</b>
+                      </Text>
+                      <Text>Color: French Blue/Black</Text>
+                      <Text>Size: 7</Text>
+                      <Text>Width: B - Medium</Text>
+                    </Box>
                   </Flex>
 
                   <Box>
-                  <Text color={"red"}>${elem.price}</Text>
-                  <Text as={"del"}>$156.31</Text>
-                  <Select mt={"5px"} mb={"5px"} w={"80px"} value={elem.count}
-                  onChange={(e)=>{
-                    dispatch(increasecart({item:elem, qty: +e.target.value}))
-                  }}
-                  >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                  </Select>
-                  <Button
-                    bg={"initial"}
-                    borderWidth="0"
-                    borderBottom={"1px solid #003953"}
-                    color="#003953"
-                    borderRadius={0}
-                    textDecoration="none"
-                    padding="0"
-                    _hover={{
-                      bg: "white",
-                      color: "teal",
-                      borderBottom: "1px solid teal",
-                    }}
-                    onClick={()=>{
-                      dispatch(deletefromcart(elem))
-                    }}
-                  >
-                    REMOVE
-                  </Button>
-                    </Box>
-                  </Flex>
-               </Box>
-              ))
-            }
-            
-            
+                    <Text color={"red"}>${elem.productId.price}</Text>
+                    <Text as={"del"}>$156.31</Text>
+                    <Select
+                      mt={"5px"}
+                      mb={"5px"}
+                      w={"80px"}
+                      value={elem.quantity}
+                      onChange={(e) => {
+                        fetch(
+                          `https://zappos.cyclic.app/cart/${elem.productId._id}`,
+                          {
+                            method: "PATCH",
+                            body: JSON.stringify({
+                              userId: elem.userId,
+                              quantity: e.target.value,
+                            }),
+                            headers: {
+                              "Content-type": "application/json",
+                            },
+                          }
+                        ).then((res) => {
+                          console.log(res);
+                          dispatch(fetchCartData());
+                        });
+                      }}
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                    </Select>
+                    <Button
+                      bg={"initial"}
+                      borderWidth="0"
+                      borderBottom={"1px solid #003953"}
+                      color="#003953"
+                      borderRadius={0}
+                      textDecoration="none"
+                      padding="0"
+                      _hover={{
+                        bg: "white",
+                        color: "teal",
+                        borderBottom: "1px solid teal",
+                      }}
+                      onClick={() => {
+                        fetch(
+                          `https://zappos.cyclic.app/cart/${elem.productId._id}`,
+                          {
+                            method: "DELETE",
+                            body: JSON.stringify({
+                              userId: elem.userId,
+                            }),
+                            headers: {
+                              "Content-type": "application/json",
+                            },
+                          }
+                        ).then(() => {
+                          dispatch(fetchCartData());
+                        });
+                      }}
+                    >
+                      REMOVE
+                    </Button>
+                  </Box>
+                </Flex>
+              </Box>
+            ))}
           </Box>
           <Box w={{ sm: "90vw", md: "28vw", xl: "28vw" }}>
             <Box
@@ -293,16 +341,16 @@ const Cart = () => {
               h="-webkit-fit-content"
             >
               <Box>
-              <Link to="/checkout">
-                <Button
-                  fontSize={{ base: "md", sm: "md", md: "sm", xl: "md" }}
-                  w={"100%"}
-                  bg="#a7e688"
-                  color="#003953"
-
-                >
-                  PROCEED T0 CHECKOUT
-                </Button></Link>
+                <Link to="/checkout">
+                  <Button
+                    fontSize={{ base: "md", sm: "md", md: "sm", xl: "md" }}
+                    w={"100%"}
+                    bg="#a7e688"
+                    color="#003953"
+                  >
+                    PROCEED T0 CHECKOUT
+                  </Button>
+                </Link>
               </Box>
               <Text fontSize={"xs"} mt="10px">
                 Have a Promotional Code? Proceed to checkout to redeem it.
@@ -311,7 +359,7 @@ const Cart = () => {
                 fontWeight={"500"}
                 fontSize={{ base: "xl", sm: "xl", md: "md", xl: "xl" }}
               >
-                Cart Summary ({cart.length} Items)
+                Cart Summary ({cart?.length} Items)
               </Text>
               <Flex justifyContent={"space-between"}>
                 <Box>
@@ -319,7 +367,7 @@ const Cart = () => {
                     fontWeight={"500"}
                     fontSize={{ base: "xl", sm: "xl", md: "md", xl: "xl" }}
                   >
-                    Subtotal ({cart.length} items)
+                    Subtotal ({cart?.length} items)
                   </Text>
                 </Box>
                 <Box>

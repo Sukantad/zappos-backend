@@ -91,3 +91,15 @@ export const register = (user) => (dispatch) => {
     .then((res) => res.json())
     .catch(() => dispatch(getError()));
 };
+
+export const fetchCartData = () => (dispatch) => {
+  fetch(
+    `https://zappos.cyclic.app/cart/${
+      JSON.parse(localStorage.getItem("profile"))._id
+    }`
+  )
+    .then((res) => res.json())
+    .then((res)=> dispatch(addtocart(res.data)))
+    .catch((er) => console.log(er));
+};
+//   

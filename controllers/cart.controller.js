@@ -29,7 +29,7 @@ exports.addToCart = async (req, res) => {
   const userId = req.body.userId;
   const { productId } = req.params;
   try {
-    const cart = await Cart.findOne({ productId: productId });
+    const cart = await Cart.findOne({ userId: userId, productId: productId });
     if (cart) {
       return res.status(400).send({
         status: "error",

@@ -71,41 +71,8 @@ function reducer(state = initState, { type, payload }) {
     }
 
     case ADDTOCART: {
-      let ispresent = false;
-      let newcart = [];
-      if (state.cart.length > 0) {
-        newcart = state.cart.map((elem) => {
-          if (elem.desc === payload.desc) {
-            ispresent = true;
-            return { ...elem, count: +elem.count + 1 };
-          } else {
-            return elem;
-          }
-        });
-      }
-
-      if (!ispresent) {
-        newcart = [...state.cart, { ...payload, count: 1 }];
-      }
-      // console.log(state.userprofile)
-      fetch(
-        `https://zappos-server.herokuapp.com/users/${state.userprofile.id}`,
-        {
-          //update for json integration
-          method: "PATCH",
-          body: JSON.stringify({
-            cart: newcart,
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
-
-      return {
-        ...state,
-        cart: [...newcart],
-      };
+      // console.log("payload ", payload);
+      return { ...state, cart: payload };
     }
 
     case DELFROMCART: {
