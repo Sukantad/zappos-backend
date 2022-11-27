@@ -29,11 +29,19 @@ exports.addToCart = async (req, res) => {
   const userId = req.body.userId;
   const { productId } = req.params;
   try {
-    const cart = await Cart.findOne({ userId: userId, productId: productId });
-    if (cart) {
-      return res.status(400).send({
-        status: "error",
-        message: "Item is already in your cart",
+    const quantity = await Cart.findOne({
+      userId: userId,
+      productId: productId,
+    }).quantity;
+    if (quantity) {
+      const newItem = await Cart.findOneAndUpdate(
+        { userId: userId, productId: productId },
+        { quantity: quantity + 1 },
+        { new: true }
+      ).populate("productId");
+      return res.status(200).send({
+        status: "success",
+        data: newItem,
       });
     } else {
       const newItem = await Cart.create({
