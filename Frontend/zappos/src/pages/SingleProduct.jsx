@@ -47,12 +47,15 @@ const SingleProduct = () => {
       position: "top",
     });
   };
-
+  // console.log("userId ", JSON.parse(localStorage.getItem("profile"))._id);
+  // const userid = localStorage.getItem("profile")._id;
   const AddtoCart = () => {
     if (isauth) {
       fetch(`https://zappos.cyclic.app/cart/${id}`, {
         method: "POST",
-        body: JSON.stringify({ userId: localStorage.getItem("profile")._id }),
+        body: JSON.stringify({
+          userId: JSON.parse(localStorage.getItem("profile"))._id,
+        }),
         headers: {
           "Content-type": "application/json",
         },
