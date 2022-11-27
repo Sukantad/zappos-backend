@@ -63,7 +63,7 @@ exports.cartQuantity = async (req, res) => {
       { userId: userId, productId: productId },
       { quantity: quantity },
       { new: true }
-    );
+    ).populate("productId");
     if (!cart) {
       const newItem = await Cart.create({
         userId: userId,
