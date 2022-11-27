@@ -33,11 +33,11 @@ exports.addToCart = async (req, res) => {
       userId: userId,
       productId: productId,
     }).quantity;
+    console.log(quantity);
     if (quantity) {
-      const newItem = await Cart.findOneAndUpdate(
+      const newItem = await Cart.updateOne(
         { userId: userId, productId: productId },
-        { quantity: quantity + 1 },
-        { new: true }
+        { quantity: quantity + 1 }
       ).populate("productId");
       return res.status(200).send({
         status: "success",
