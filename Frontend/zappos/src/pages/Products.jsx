@@ -521,7 +521,7 @@ const Products = () => {
                 <SimpleGrid minChildWidth="220px" spacing="10px" m={5}>
                   {data.map((elem, i) => (
                     <NavLink
-                      to={`/category/${genderValue}/${elem.id}`}
+                      to={`/category/${genderValue}/${elem._id}`}
                       key={Math.random() * Date.now() + i + Math.random()}
                     >
                       <Product elem={elem} i={i} />
