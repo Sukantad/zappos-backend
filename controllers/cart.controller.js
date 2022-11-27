@@ -65,14 +65,9 @@ exports.cartQuantity = async (req, res) => {
       { new: true }
     ).populate("productId");
     if (!cart) {
-      const newItem = await Cart.create({
-        userId: userId,
-        productId: productId,
-        quantity: quantity,
-      });
-      return res.status(200).send({
-        status: "success",
-        data: newItem,
+      return res.status(400).send({
+        status: "error",
+        data: "Product Doesn't Exist in Cart",
       });
     }
     return res.status(200).send({
