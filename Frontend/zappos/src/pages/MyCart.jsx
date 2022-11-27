@@ -30,13 +30,22 @@ import { deletefromcart, increasecart } from "../Redux/action";
 const MyCart = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
-  const cart = useSelector((state) => state.cart);
+  // const cart = useSelector((state) => state.cart);
+  const [cart, setCart] = useState([]);
+  fetch(
+    `https://zappos.cyclic.app/cart/${
+      JSON.parse(localStorage.getItem("profile"))._id
+    }`
+  )
+    .then((res) => res.json())
+    .then((res) => setCart(res.data));
+
   const [totalAmount, setTotalAmount] = useState(0);
   const dispatch = useDispatch();
   useEffect(() => {
     const getAmount = () => {
       let amt = cart.reduce((acc, elem) => {
-        return acc + elem.price * elem.count;
+        return acc + elem.productId.price * elem.quantity;
       }, 0);
       setTotalAmount(Math.floor(amt));
     };
@@ -82,7 +91,11 @@ const MyCart = () => {
               {cart.map((elem) => (
                 <Flex
                   p={2}
-                  key={elem.id * Math.random() + Date.now() + elem.imageurl}
+                  key={
+                    elem._id * Math.random() +
+                    Date.now() +
+                    elem.productId.imageurl
+                  }
                 >
                   <Flex>
                     <Box
@@ -104,14 +117,14 @@ const MyCart = () => {
                       <Image
                         w={"150px"}
                         h="200px"
-                        src={elem.imageurl}
+                        src={elem.productId.imageurl}
                         alt="image of product"
                       />
                     </Box>
                     <Box pl="10px">
-                      <Text>{elem.brand}</Text>
+                      <Text>{elem.productId.brand}</Text>
                       <Text>
-                        <b>{elem.desc}</b>
+                        <b>{elem.productId.desc}</b>
                       </Text>
                       <Text>Color: French Blue/Black</Text>
                       <Text>Size: 7</Text>
@@ -120,16 +133,26 @@ const MyCart = () => {
                   </Flex>
 
                   <Box ml="40px">
-                    <Text color={"red"}>${elem.price}</Text>
+                    <Text color={"red"}>${elem.productId.price}</Text>
                     <Text as={"del"}>$195.31</Text>
                     <Select
                       mt={"5px"}
                       mb={"5px"}
                       w={"80px"}
-                      value={elem.count}
+                      value={elem.quantity}
                       onChange={(e) => {
-                        dispatch(
-                          increasecart({ item: elem, qty: +e.target.value })
+                        fetch(
+                          `https://zappos.cyclic.app/cart/${elem.productId._id}`,
+                          {
+                            method: "PATCH",
+                            body: JSON.stringify({
+                              userId: elem.userId,
+                              quantity: e.target.value,
+                            }),
+                            headers: {
+                              "Content-type": "application/json",
+                            },
+                          }
                         );
                       }}
                     >
@@ -154,7 +177,19 @@ const MyCart = () => {
                         borderBottom: "1px solid teal",
                       }}
                       onClick={() => {
-                        dispatch(deletefromcart(elem));
+                        fetch(
+                          `https://zappos.cyclic.app/cart/${elem.productId._id}`,
+                          {
+                            method: "DELETE",
+                            body: JSON.stringify({
+                              userId: elem.userId,
+                            }),
+                            headers: {
+                              "Content-type": "application/json",
+                            },
+                          }
+                        );
+                        // dispatch(deletefromcart(elem));
                       }}
                     >
                       REMOVE

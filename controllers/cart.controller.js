@@ -88,7 +88,7 @@ exports.cartQuantity = async (req, res) => {
 };
 
 exports.deleteOneProduct = async (req, res) => {
-  const userId = "637fa76c544dc5035dc76f6f";
+  const userId = req.body.userId;
   const { productId } = req.params;
   try {
     const cart = await Cart.deleteOne({ userId: userId, productId: productId });
