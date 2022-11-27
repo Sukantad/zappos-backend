@@ -18,10 +18,10 @@ cartRoute.post("/:productId", addToCart);
 //for changing the quantity of the product in the cart
 cartRoute.patch("/:productId", cartQuantity);
 
-//for deleting the product from the cart
-cartRoute.delete("/:productId", deleteOneProduct);
-
 //for Checkout
 cartRoute.delete("/deleteAll", deleteAllCartProduct);
+
+//for deleting the product from the cart
+cartRoute.delete("/:productId", deleteOneProduct);
 
 module.exports = cartRoute;

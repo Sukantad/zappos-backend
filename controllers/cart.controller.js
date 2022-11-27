@@ -117,6 +117,7 @@ exports.deleteOneProduct = async (req, res) => {
 };
 exports.deleteAllCartProduct = async (req, res) => {
   const userId = req.body.userId;
+  console.log("userId ", userId);
   try {
     const cart = await Cart.deleteMany({ userId: userId });
     console.log(cart);
@@ -134,7 +135,7 @@ exports.deleteAllCartProduct = async (req, res) => {
   } catch (error) {
     return res.status(500).send({
       status: "error",
-      message: "Internal Server Error",
+      message: "Internal Server Error fsdf",
     });
   }
 };

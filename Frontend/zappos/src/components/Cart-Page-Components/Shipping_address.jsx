@@ -2,7 +2,11 @@ import { useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { checkoutdone, setshipaddress } from "../../Redux/action";
+import {
+  checkoutdone,
+  fetchCartData,
+  setshipaddress,
+} from "../../Redux/action";
 import "./shipping.css";
 const Shipping_address = () => {
   const toast = useToast();
@@ -78,21 +82,19 @@ const Shipping_address = () => {
         desc: "Please enter 16 digit card number !",
       });
     } else {
-      dispatch(setshipaddress(address));
-      dispatch(checkoutdone());
       fetch(`https://zappos.cyclic.app/cart/deleteAll`, {
         method: "DELETE",
         body: JSON.stringify({
-          userId: JSON.stringify(
-            JSON.parse(localStorage.getItem("profile"))._id
-          ),
+          userId: JSON.parse(localStorage.getItem("profile"))._id,
         }),
         headers: {
           "Content-type": "application/json",
         },
       }).then((res) => {
+        dispatch(setshipaddress(address));
+        dispatch(checkoutdone());
         console.log(res);
-        dispatch(fetchCartData());
+        // dispatch(fetchCartData());
       });
       navigate("/ordersuccess");
     }
