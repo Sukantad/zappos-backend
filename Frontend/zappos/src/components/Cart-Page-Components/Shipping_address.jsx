@@ -82,6 +82,8 @@ const Shipping_address = () => {
         desc: "Please enter 16 digit card number !",
       });
     } else {
+      dispatch(setshipaddress(address));
+      dispatch(checkoutdone());
       fetch(`https://zappos.cyclic.app/cart/deleteAll`, {
         method: "DELETE",
         body: JSON.stringify({
@@ -91,8 +93,6 @@ const Shipping_address = () => {
           "Content-type": "application/json",
         },
       }).then((res) => {
-        dispatch(setshipaddress(address));
-        dispatch(checkoutdone());
         console.log(res);
         // dispatch(fetchCartData());
       });
