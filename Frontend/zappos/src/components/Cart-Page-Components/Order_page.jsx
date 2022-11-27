@@ -22,7 +22,7 @@ const Order_page = () => {
         <div id="right" className="right">
           <div></div>
           <div className="div2">
-            <button className="payment-btn place">PLACE YOUR ORDER</button>
+            <button className="payment-btn place">DETAILS</button>
             <h3 className="order-summary">
               Order Summary ({cart?.length} Items)
             </h3>

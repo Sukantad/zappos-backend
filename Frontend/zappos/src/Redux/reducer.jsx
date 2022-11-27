@@ -173,20 +173,20 @@ function reducer(state = initState, { type, payload }) {
     case CHECKOUTDONE: {
       let orders = [...state.cart];
 
-      fetch(
-        `https://zappos-server.herokuapp.com/users/${state.userprofile.id}`,
-        {
-          //update for json integration
-          method: "PATCH",
-          body: JSON.stringify({
-            cart: [],
-            orders: [...orders],
-          }),
-          headers: {
-            "Content-type": "application/json",
-          },
-        }
-      );
+      // fetch(
+      //   `https://zappos-server.herokuapp.com/users/${state.userprofile.id}`,
+      //   {
+      //     //update for json integration
+      //     method: "PATCH",
+      //     body: JSON.stringify({
+      //       cart: [],
+      //       orders: [...orders],
+      //     }),
+      //     headers: {
+      //       "Content-type": "application/json",
+      //     },
+      //   }
+      // );
 
       return {
         ...state,

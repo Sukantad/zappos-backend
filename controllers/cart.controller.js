@@ -115,3 +115,26 @@ exports.deleteOneProduct = async (req, res) => {
     });
   }
 };
+exports.deleteAllCartProduct = async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    const cart = await Cart.deleteMany({ userId: userId });
+    console.log(cart);
+    if (cart) {
+      return res.status(200).send({
+        status: "success",
+        message: "Deleted Successfully",
+      });
+    } else {
+      return res.status(400).send({
+        status: "error",
+        message: "Item not Found",
+      });
+    }
+  } catch (error) {
+    return res.status(500).send({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+};
