@@ -58,7 +58,8 @@ import Gender from "../components/Gender";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { brandfilter, clearfilter, genderfilter, pricefilter } from "../Redux/action";
-const url = `https://zappos-server.herokuapp.com`;
+//const url = `https://zappos-server.herokuapp.com`;
+const url=`http://localhost:3050/products`
 
 const Products = () => {
   const { value, getCheckboxProps } = useCheckboxGroup();
@@ -128,7 +129,7 @@ const Products = () => {
   const [brandFilterUrl, setBrandFilterUrl] = useState("");
 
   const sortPriceUrl =
-    sortPrice === "" ? "" : `&_sort=price&_order=${sortPrice}`;
+    sortPrice === "" ? "" : `&sort=price&order=${sortPrice}`;
   const sortRatingsUrl = sortRatings === "" ? "" : `&_sort=ratings&_order=desc`;
   const sortBrandNameUrl =
     sortBrandName === "" ? "" : `&_sort=brand&_order=asc`;
@@ -167,8 +168,9 @@ const Products = () => {
   const fetchData = () => {
     setLoading(true);
     const gender = genderValue;
+    const prevU= `${url}/${gender}?_limit=100&_page=1${sortPriceUrl}${priceRangeUrl}${sortRatingsUrl}${sortBrandNameUrl}${brandFilterUrl}`
     fetch(
-      `${url}/${gender}?_limit=100&_page=1${sortPriceUrl}${priceRangeUrl}${sortRatingsUrl}${sortBrandNameUrl}${brandFilterUrl}`
+      `${url}?limit=100&page=1&sort=price&order=${sortPrice}`
     )
       .then((res) => res.json())
       .then((res) => {
