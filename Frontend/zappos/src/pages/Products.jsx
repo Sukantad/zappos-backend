@@ -57,8 +57,13 @@ import Colors from "../components/Colors";
 import Gender from "../components/Gender";
 import { NavLink, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { brandfilter, clearfilter, genderfilter, pricefilter } from "../Redux/action";
-const url = `https://zappos-server.herokuapp.com`;
+import {
+  brandfilter,
+  clearfilter,
+  genderfilter,
+  pricefilter,
+} from "../Redux/action";
+const url = `https://zappos.cyclic.app/products`;
 
 const Products = () => {
   const { value, getCheckboxProps } = useCheckboxGroup();
@@ -106,41 +111,37 @@ const Products = () => {
     UpdatePriceRange();
   }, [genderarr, pricearr]);
 
-
   useEffect(() => {
     const cleanup = () => {
-      dispatch(clearfilter());    //for clearing filters
+      dispatch(clearfilter()); //for clearing filters
     };
 
     return cleanup;
   }, []);
-  
 
   // console.log(genderarr, brandarr);
   // console.log("PriceRange", priceRange);
   const priceRangeUrl =
     priceRange[0] >= 0
-      ? `&price_gte=${priceRange[0]}&price_lte=${priceRange[1]}`
+      ? `&range=price&gte=${priceRange[0]}&lte=${priceRange[1]}`
       : "";
   const [sortPrice, setSortPrice] = useState("");
   const [sortRatings, setSortRatings] = useState("");
   const [sortBrandName, setSortBrandName] = useState("");
   const [brandFilterUrl, setBrandFilterUrl] = useState("");
 
-  const sortPriceUrl =
-    sortPrice === "" ? "" : `&sort=price&order=${sortPrice}`;
-  const sortRatingsUrl = sortRatings === "" ? "" : `&_sort=ratings&_order=desc`;
-  const sortBrandNameUrl =
-    sortBrandName === "" ? "" : `&_sort=brand&_order=asc`;
+  const sortPriceUrl = sortPrice === "" ? "" : `&sort=price&order=${sortPrice}`;
+  const sortRatingsUrl = sortRatings === "" ? "" : `&sort=ratings&order=desc`;
+  const sortBrandNameUrl = sortBrandName === "" ? "" : `&sort=brand&order=asc`;
 
   const UpdateBrand = () => {
     // console.log("Update Brand");
-    let newBrandURl = "&brand_like=";
+    let newBrandURl = "&brand=";
     for (var i = 0; i < brandarr.length; i++) {
       if (i == brandarr.length - 1) {
         newBrandURl += brandarr[i];
       } else {
-        newBrandURl += brandarr[i] + "&brand_like=";
+        newBrandURl += brandarr[i] + "&brand=";
       }
     }
     if (brandarr.length !== 0) {
@@ -167,11 +168,16 @@ const Products = () => {
   const fetchData = () => {
     setLoading(true);
     const gender = genderValue;
+    console.log("gender ", gender);
+    console.log(
+      `${url}?category=${gender}${sortPriceUrl}${priceRangeUrl}${sortRatingsUrl}${sortBrandNameUrl}${brandFilterUrl}`
+    );
     fetch(
-      `${url}/${gender}?_limit=100&_page=1${sortPriceUrl}${priceRangeUrl}${sortRatingsUrl}${sortBrandNameUrl}${brandFilterUrl}`
+      `${url}?category=${gender}${sortPriceUrl}${priceRangeUrl}${sortRatingsUrl}${sortBrandNameUrl}${brandFilterUrl}`
     )
       .then((res) => res.json())
       .then((res) => {
+        console.log(res, "res");
         setData(res);
       })
       .finally(() => {
@@ -182,10 +188,16 @@ const Products = () => {
     let val = event.target.value;
     if (val == "asc" || val == "desc") {
       setSortPrice(event.target.value);
+      setSortBrandName("");
+      setSortRatings("");
     } else if (val == "customerRating") {
       setSortRatings("sortRatingsDesc");
+      setSortBrandName("");
+      setSortPrice("");
     } else {
       setSortBrandName("brandName");
+      setSortPrice("");
+      setSortRatings("");
     }
   };
   const scrollStyle = {
@@ -348,10 +360,10 @@ const Products = () => {
                 {genderarr.map(
                   (el, i) =>
                     el != "" && (
-                      <Box key={Math.random()*Date.now()+el+Math.random()}
+                      <Box
+                        key={Math.random() * Date.now() + el + Math.random()}
                       >
                         <Button
-                          
                           alignItems="center"
                           borderRadius={50}
                           bg="#e5f1f8"
@@ -380,10 +392,9 @@ const Products = () => {
                   (el, i) =>
                     el != "" && (
                       <Box
-                      key={Math.random()*Date.now()+el+Math.random()}
+                        key={Math.random() * Date.now() + el + Math.random()}
                       >
                         <Button
-                          
                           alignItems="center"
                           borderRadius={50}
                           bg="#e5f1f8"
@@ -412,10 +423,9 @@ const Products = () => {
                   (el, i) =>
                     el != "" && (
                       <Box
-                      key={Math.random()*Date.now()+el+Math.random()}
+                        key={Math.random() * Date.now() + el + Math.random()}
                       >
                         <Button
-                          
                           alignItems="center"
                           borderRadius={50}
                           bg="#e5f1f8"
@@ -510,8 +520,9 @@ const Products = () => {
               ) : (
                 <SimpleGrid minChildWidth="220px" spacing="10px" m={5}>
                   {data.map((elem, i) => (
-                    <NavLink to={`/category/${genderValue}/${elem.id}`}
-                    key={Math.random()*Date.now()+i+Math.random()}
+                    <NavLink
+                      to={`/category/${genderValue}/${elem.id}`}
+                      key={Math.random() * Date.now() + i + Math.random()}
                     >
                       <Product elem={elem} i={i} />
                     </NavLink>
