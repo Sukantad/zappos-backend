@@ -1,0 +1,4 @@
+Host Zappos
+  HostName 13.113.98.47
+  User ubuntu
+  IdentityFile ~/zappos.pem
