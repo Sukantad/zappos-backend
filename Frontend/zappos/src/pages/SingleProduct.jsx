@@ -18,6 +18,7 @@ const SingleProduct = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   let { cat, id } = useParams();
+  console.log(id, " id");
   const isauth = useSelector((state) => state.isauth);
   console.log(isauth);
   const navigate = useNavigate();
@@ -49,7 +50,13 @@ const SingleProduct = () => {
 
   const AddtoCart = () => {
     if (isauth) {
-      dispatch(addtocart(data));
+      fetch(`https://zappos.cyclic.app/cart/${id}`, {
+        method: "POST",
+        body: JSON.stringify({ userId: localStorage.getItem("profile")._id }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
       Cartalert();
     } else {
       navigate("/signin");
