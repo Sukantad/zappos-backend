@@ -25,9 +25,9 @@
       # user will be like
 
       const user = {
-                      name : "Umesh",
-                      email:"royanosh777@gmail.com",
-                      password:"umesh@123"
+                      "name" : "Umesh",
+                      "email":"royanosh777@gmail.com",
+                      "password":"umesh@123"
                    }
 
       fetch(`${BASE_URL}/user/signup`, {
