@@ -1,11 +1,24 @@
 # zappos-backend
 - All Backend Will be here
 
-## Products Data
-- You can find products data in data folder.
-
 ## Base Url
 - https://zappos.cyclic.app
+
+## Products Data
+- You can find products data in data folder.
+  ```
+    {
+      "_id": "63833499efc6c6cb0b1dc69a",
+      "imageurl": "https://m.media-amazon.com/images/I/61SFAqf9EDL._AC_SR255,340_.jpg",
+      "brand": "Madewells",
+      "desc": "Round Neck Plain White  T-Shirt ",
+      "ratings": "196",
+      "price": 98.11,
+      "category": "menscloths",
+      "gender": "men"
+    }
+  ```
+
 
 ## Login SignUp
 - 
@@ -13,22 +26,57 @@
     ```
     https://zappos.cyclic.app/signup
     post("/signup",signupDetailsValidator,signup)
+    # signupDetailsValidator and signup you will found in middleware and controllers folder.
     ```
    - Login Post Request
       ```
       https://zappos.cyclic.app/login
       post("/login",loginDetailsValidator,login)
+      # loginDetailsValidator and login you will found in middleware and controllers folder.
       ```
 ## Product Page
 - Get Products
-      ```
-      https://zappos.cyclic.app/products
-      ```
+  ```
+  https://zappos.cyclic.app/products
+  ```
 - Get Single Product
-      ```
-      https://zappos.cyclic.app/products/:id
-      ```
-
+  ```
+  https://zappos.cyclic.app/products/:id
+  ```
+## Filter Search Sorting Pagination
+- Search
+  ```
+  https://zappos.cyclic.app/products?q=searchValue
+  ```
+- Sort And Order
+  ```
+  https://zappos.cyclic.app/products?sort=price&order=asc
+  # you can change price and asc with other category and order
+  ```
+- Range
+  ```
+  https://zappos.cyclic.app/products?range=price&lte=200&gte=50
+  # lte for less than equal
+  # gte for greater than equal
+  # range for on which category
+  ```
+- Pagination
+  ```
+  https://zappos.cyclic.app/products?page=2&limit=5
+  # page for which page's products we want to access
+  # limit for per page products limit
+  ```
+- Filter
+  ```
+  https://zappos.cyclic.app/products?category=mix
+  # category can be replace with price, gender, ratings, brand. It will work fully dynamically.
+  # mix is value here
+  ```
+## Full Package
+- You can use all together it will work fantastic 😁😁
+  ```
+  https://zappos.cyclic.app/products?category=mix&sort=price&order=asc&range=price&gte=0&lte=200&page=1&limit=3
+  ```
 
 # Zappos Frontend
 
