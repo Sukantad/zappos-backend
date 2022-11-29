@@ -1,7 +1,5 @@
-# zappos-backend
-- All Backend Will be here
-
-## Base Url
+# Zappos-Backend
+## BASE_URL
 - https://zappos.cyclic.app
 
 ## Products Data
@@ -24,15 +22,34 @@
 - 
   - SignUp Post Request
     ```
-    https://zappos.cyclic.app/signup
-    post("/signup",signupDetailsValidator,signup)
-    # signupDetailsValidator and signup you will found in middleware and controllers folder.
+      # user will be like
+
+      const user = {
+                      name : "Umesh",
+                      email:"royanosh777@gmail.com",
+                      password:"umesh@123"
+                   }
+
+      fetch(`${BASE_URL}/user/signup`, {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+              "Content-type": "application/json",
+            },
+          })
     ```
    - Login Post Request
       ```
-      https://zappos.cyclic.app/login
-      post("/login",loginDetailsValidator,login)
-      # loginDetailsValidator and login you will found in middleware and controllers folder.
+        fetch(`${BASE_URL}/user/login`, {
+          method: "POST",
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
       ```
 ## Product Page
 - Get Products
@@ -77,6 +94,75 @@
   ```
   https://zappos.cyclic.app/products?category=mix&sort=price&order=asc&range=price&gte=0&lte=200&page=1&limit=3
   ```
+## Cart (Dynamic For Every user)
+- Get Cart Products
+  ```
+    https://zappos.cyclic.app/cart/:userId
+    fetch(
+      `https://zappos.cyclic.app/cart/${userId}`
+    )
+    # When successfully loged in, you will found userId in response user._id 
+  ```
+- Add to Cart
+  ```
+    https://zappos.cyclic.app/cart/:productId
+    fetch(`https://zappos.cyclic.app/cart/${id}`, {
+          method: "POST",
+          body: JSON.stringify({
+            userId: userid,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+    # Need to provide userId also
+  ```
+- Delete From Cart
+  ```
+    https://zappos.cyclic.app/cart/:productId
+    fetch(`https://zappos.cyclic.app/cart/${id}`, {
+             method: "DELETE",
+             body: JSON.stringify({
+             userId: userId,
+             }),
+             headers: {
+               "Content-type": "application/json",
+             },
+          }
+    )
+    # Need to provide userId also
+  ```
+- Patch
+  ```
+    https://zappos.cyclic.app/cart/:productId
+    fetch(`https://zappos.cyclic.app/cart/${id}`, {
+             method: "PATCH",
+             body: JSON.stringify({
+             userId: userId,
+             quantity:quantity,
+             }),
+             headers: {
+               "Content-type": "application/json",
+             },
+          }
+    )
+    # Need to provide userId also
+  ```
+- Clear Cart
+  ```
+  https://zappos.cyclic.app/cart/deleteAll
+  fetch(`https://zappos.cyclic.app/cart/deleteAll`, {
+        method: "DELETE",
+        body: JSON.stringify({
+          userId: userId,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+  # Need to provide userId also
+  ```
+  
 
 # Zappos Frontend
 
