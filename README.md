@@ -1,6 +1,35 @@
 # zappos-backend
 - All Backend Will be here
 
+## Products Data
+- You can find products data in data folder.
+
+## Base Url
+- https://zappos.cyclic.app
+
+## Login SignUp
+- 
+  - SignUp Post Request
+    ```
+    https://zappos.cyclic.app/signup
+    post("/signup",signupDetailsValidator,signup)
+    ```
+   - Login Post Request
+      ```
+      https://zappos.cyclic.app/login
+      post("/login",loginDetailsValidator,login)
+      ```
+## Product Page
+- Get Products
+      ```
+      https://zappos.cyclic.app/products
+      ```
+- Get Single Product
+      ```
+      https://zappos.cyclic.app/products/:id
+      ```
+
+
 # Zappos Frontend
 
 
