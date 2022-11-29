@@ -12,7 +12,7 @@ const OrderHistoryPage = () => {
 
     useEffect(()=>{
         const getAmount = ()=>{
-          let amt = orders.reduce((acc, elem)=>{
+          let amt = orders?.reduce((acc, elem)=>{
               return acc + elem.price*elem.count
           },0)
           setTotalAmount(Math.floor(amt));
@@ -53,7 +53,7 @@ const OrderHistoryPage = () => {
                 </Flex>
                 <Box p="10px">
                     {
-                        orders.map((elem) => (
+                        orders?.map((elem) => (
                             <Box key={Math.random()*Date.now()+elem.imageurl+Math.random()}
                             >
                             <Flex p={2} w="90%" justifyContent="space-between">
